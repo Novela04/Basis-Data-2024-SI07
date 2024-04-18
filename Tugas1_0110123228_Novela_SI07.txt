@@ -1,0 +1,684 @@
+Tugas basis data 
+
+Nama: NOVELA
+Rombel: SI07
+NIM: 0110123228
+
+jawaban no 1 
+MariaDB [(none)]> CREATE DATABASE dbpegawai;
+Query OK, 1 row affected (0.046 sec)
+
+jawaban no 2
+MariaDB [(none)]> USE dbpegawai;
+Database changed
+
+jawaban no 3
+MariaDB [dbpegawai]> CREATE TABLE divisi (
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30) NOT NULL UNIQUE);
+Query OK, 0 rows affected (0.054 sec)
+
+jawaban no 4
+MariaDB [dbpegawai]> DESC divisi;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.067 sec)
+
+jawaban no 5
+MariaDB [dbpegawai]> CREATE TABLE jabatan (
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nama VARCHAR(30) NOT NULL UNIQUE);
+Query OK, 0 rows affected (0.089 sec)
+
+jawaban no 6
+MariaDB [dbpegawai]> DESC jabatan;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama  | varchar(30) | NO   | UNI | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.052 sec)
+
+jawaban no 7
+MariaDB [dbpegawai]> CREATE TABLE pegawai (
+    -> id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nip CHAR(5) NOT NULL UNIQUE,
+    -> nama VARCHAR(30) NOT NULL,
+    -> gender ENUM('laki-laki','perempuan') NOT NULL,
+    -> tempatlahir VARCHAR(30) NOT NULL,
+    -> tanggallahir DATE NOT NULL,
+    -> iddivisi INT NOT NULL,
+    -> idjabatan INT NOT NULL,
+    -> alamat TEXT,
+    -> FOREIGN KEY (iddivisi) REFERENCES divisi(id),
+    -> FOREIGN KEY (idjabatan) REFERENCES jabatan(id));
+Query OK, 0 rows affected (0.087 sec)
+
+jawaban no 8
+MariaDB [dbpegawai]> DESC pegawai;
++--------------+-------------------------------+------+-----+---------+----------------+
+| Field        | Type                          | Null | Key | Default | Extra          |
++--------------+-------------------------------+------+-----+---------+----------------+
+| id           | int(11)                       | NO   | PRI | NULL    | auto_increment |
+| nip          | char(5)                       | NO   | UNI | NULL    |                |
+| nama         | varchar(30)                   | NO   |     | NULL    |                |
+| gender       | enum('laki-laki','perempuan') | NO   |     | NULL    |                |
+| tempatlahir  | varchar(30)                   | NO   |     | NULL    |                |
+| tanggallahir | date                          | NO   |     | NULL    |                |
+| iddivisi     | int(11)                       | NO   | MUL | NULL    |                |
+| idjabatan    | int(11)                       | NO   | MUL | NULL    |                |
+| alamat       | text                          | YES  |     | NULL    |                |
++--------------+-------------------------------+------+-----+---------+----------------+
+9 rows in set (0.076 sec)
+
+jawaban no 9
+MariaDB [dbpegawai]> SHOW TABLES;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| divisi              |
+| jabatan             |
+| pegawai             |
++---------------------+
+3 rows in set (0.002 sec)
+
+jawaban no 10
+MariaDB [dbpegawai]> INSERT INTO divisi (nama) VALUES
+    -> ('SDM'),('Keuangan'),('Marketing'),('IT');
+Query OK, 4 rows affected (0.115 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+jawaban no 11
+MariaDB [dbpegawai]> SELECT * FROM divisi;
++----+-----------+
+| id | nama      |
++----+-----------+
+|  4 | IT        |
+|  2 | Keuangan  |
+|  3 | Marketing |
+|  1 | SDM       |
++----+-----------+
+4 rows in set (0.002 sec)
+
+jawaban no 12
+MariaDB [dbpegawai]> INSERT INTO jabatan (nama) VALUES
+    -> ('Direktur'),('Manajer'),('Asisten Manajer'),('Staff');
+Query OK, 4 rows affected (0.019 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+jawaban no 13
+MariaDB [dbpegawai]> SELECT * FROM jabatan;
++----+-----------------+
+| id | nama            |
++----+-----------------+
+|  3 | Asisten Manajer |
+|  1 | Direktur        |
+|  2 | Manajer         |
+|  4 | Staff           |
++----+-----------------+
+4 rows in set (0.001 sec)
+
+jawaban no 14
+MariaDB [dbpegawai]> INSERT INTO pegawai (nip,nama,gender,tempatlahir,tanggallahir,iddivisi,idjabatan,alamat) VALUES
+    -> ('00010','Novela','Perempuan','Palembang','200-04-16',4,1,'palembang'),
+    -> ('00020','Irfan Gunawan','laki-laki','Jakarta','2002-03-20',4,3,'jakarta'),
+    -> ('00030','Alika','laki-laki','Bogor','2002-02-02',4,1,'bogor'),
+    -> ('00040','Sintia','Perempuan','Palembang','2003-10-03',4,2,'palembang'),
+    -> ('00050','Aldi Santoso','laki-laki','Jambi','2002-05-20',4,3,'Jambi'),
+    -> ('00060','Dendi','laki-laki','jakarta','2002-12-28',2,1,'jakarta'
+),
+    -> ('00070','Febriansyah','laki-laki','Padang','2003-02-28',2,2,'pad
+ang'),
+    -> ('00080','Muhammad Doni','laki-laki','Palembang','1997-11-25',2,1,'palemba
+ng'),
+    -> ('00090','Zaskia','Perempuan','Yogyakarta','2004-04-19',2,3,'yogy
+akarta'),
+    -> ('00100','Ningsi','Perempuan','Palembang','1990-05-22',2,4,'palem
+bang'),
+    -> ('00111','Nilam','Perempuan','Depok','1984-09-20',3,1,'depok'),
+    -> ('00112','Rasyid','laki-laki','Tangerang','2002-12-02',3,3,'Tange
+rang'),
+    -> ('00113','Dela','perempuan','Bogor','2005-10-10',3,2,'bogor'),
+    -> ('00114','Tio Maulana','laki-laki','Jakarta','2002-004-14',3,1,'jakarta'),
+    -> ('00115','Aisyah','perempuan','lampung','2002-06-30',3,4,'lampung
+'),
+    -> ('00116','Asep','laki-laki','Palembang','1997-08-10',1,3,'palemba
+ng'),
+    -> ('00117','Melda','perempuan','Surabaya','2003-07-15',1,4,'surabay
+a'),
+    -> ('00118','Ridho','laki-laki','Bandung','2004-09-25',1,2,'bandung'
+),
+    -> ('00119','Wanda','perempuan','Bogor','2003-02-20',1,1,'bogor'),
+    -> ('00120','Warti','perempuan','Makasar','1999-09-29',1,3,'makasar'
+);
+Query OK, 20 rows affected (0.019 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+jawaban no 15
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+| id | nip   | nama          | gender    | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+|  1 | 00010 | Novela        | perempuan | Palembang   | 0200-04-16   |        4 |         1 | palembang  |
+|  2 | 00020 | Irfan Gunawan | laki-laki | Jakarta     | 2002-03-20   |        4 |         3 | jakarta    |
+|  3 | 00030 | Alika         | laki-laki | Bogor       | 2002-02-02   |        4 |         1 | bogor      |
+|  4 | 00040 | Sintia        | perempuan | Palembang   | 2003-10-03   |        4 |         2 | palembang  |
+|  5 | 00050 | Aldi Santoso  | laki-laki | Jambi       | 2002-05-20   |        4 |         3 | Jambi      |
+|  6 | 00060 | Dendi         | laki-laki | jakarta     | 2002-12-28   |        2 |         1 | jakarta    |
+|  7 | 00070 | Febriansyah   | laki-laki | Padang      | 2003-02-28   |        2 |         2 | padang     |
+|  8 | 00080 | Muhammad Doni | laki-laki | Palembang   | 1997-11-25   |        2 |         1 | palembang  |
+|  9 | 00090 | zaskia        | perempuan | Yogyakarta  | 2004-04-19   |        2 |         3 | yogyakarta |
+| 10 | 00100 | Ningsi        | perempuan | Palembang   | 1990-05-22   |        2 |         4 | palembang  |
+| 11 | 00111 | Nilam         | perempuan | Depok       | 1984-09-20   |        3 |         1 | depok      |
+| 12 | 00112 | Rasyid        | laki-laki | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |
+| 13 | 00113 | Dela          | perempuan | Bogor       | 2005-10-10   |        3 |         2 | bogor      |
+| 14 | 00114 | Tio Maulana   | laki-laki | Jakarta     | 2002-04-14   |        3 |         1 | jakarta    |
+| 15 | 00115 | Aisyah        | perempuan | lampung     | 2002-06-30   |        3 |         4 | lampung    |
+| 16 | 00116 | Asep          | laki-laki | Palembang   | 1997-08-10   |        1 |         3 | palembang  |
+| 17 | 00117 | Melda         | perempuan | Surabaya    | 2003-07-15   |        1 |         4 | surabaya   |
+| 18 | 00118 | Ridho         | laki-laki | Bandung     | 2004-09-25   |        1 |         2 | bandung    |
+| 19 | 00119 | Wanda         | perempuan | Bogor       | 2003-02-20   |        1 |         1 | bogor      |
+| 20 | 00120 | Warti         | perempuan | Makasar     | 1999-09-29   |        1 |         3 | makasar    |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+20 rows in set (0.001 sec)
+
+jawaban no 16
+*mengubah kolom tempatlahir:
+MariaDB [dbpegawai]> UPDATE pegawai SET tempatlahir = 'Palembang' WHERE
+id IN (2,3,5,6,9);
+Query OK, 5 rows affected (0.014 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+*mengubah kolom iddivisi:
+MariaDB [dbpegawai]> UPDATE pegawai SET iddivisi = '1' WHERE id IN (2,3,
+5,6,9);
+Query OK, 5 rows affected (0.020 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+*mengubah kolom idjabatan:
+MariaDB [dbpegawai]> UPDATE pegawai SET idjabatan = '1' WHERE id IN (2,3
+,5,6,9);
+Query OK, 3 rows affected (0.004 sec)
+Rows matched: 5  Changed: 3  Warnings: 0
+*Hasilnya:
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+| id | nip   | nama          | gender    | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+|  1 | 00010 | Novela        | perempuan | Palembang   | 0200-04-16   |        4 |         1 | palembang  |
+|  2 | 00020 | Irfan Gunawan | laki-laki | Palembang   | 2002-03-20   |        1 |         1 | jakarta    |
+|  3 | 00030 | Alika         | laki-laki | Palembang   | 2002-02-02   |        1 |         1 | bogor      |
+|  4 | 00040 | Sintia        | perempuan | Palembang   | 2003-10-03   |        4 |         2 | palembang  |
+|  5 | 00050 | Aldi Santoso  | laki-laki | Palembang   | 2002-05-20   |        1 |         1 | Jambi      |
+|  6 | 00060 | Dendi         | laki-laki | Palembang   | 2002-12-28   |        1 |         1 | jakarta    |
+|  7 | 00070 | Febriansyah   | laki-laki | Padang      | 2003-02-28   |        2 |         2 | padang     |
+|  8 | 00080 | Muhammad Doni | laki-laki | Palembang   | 1997-11-25   |        2 |         1 | palembang  |
+|  9 | 00090 | zaskia        | perempuan | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |
+| 10 | 00100 | Ningsi        | perempuan | Palembang   | 1990-05-22   |        2 |         4 | palembang  |
+| 11 | 00111 | Nilam         | perempuan | Depok       | 1984-09-20   |        3 |         1 | depok      |
+| 12 | 00112 | Rasyid        | laki-laki | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |
+| 13 | 00113 | Dela          | perempuan | Bogor       | 2005-10-10   |        3 |         2 | bogor      |
+| 14 | 00114 | Tio Maulana   | laki-laki | Jakarta     | 2002-04-14   |        3 |         1 | jakarta    |
+| 15 | 00115 | Aisyah        | perempuan | lampung     | 2002-06-30   |        3 |         4 | lampung    |
+| 16 | 00116 | Asep          | laki-laki | Palembang   | 1997-08-10   |        1 |         3 | palembang  |
+| 17 | 00117 | Melda         | perempuan | Surabaya    | 2003-07-15   |        1 |         4 | surabaya   |
+| 18 | 00118 | Ridho         | laki-laki | Bandung     | 2004-09-25   |        1 |         2 | bandung    |
+| 19 | 00119 | Wanda         | perempuan | Bogor       | 2003-02-20   |        1 |         1 | bogor      |
+| 20 | 00120 | Warti         | perempuan | Makasar     | 1999-09-29   |        1 |         3 | makasar    |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+20 rows in set (0.001 sec)
+
+jawaban no 17
+MariaDB [dbpegawai]> DELETE FROM pegawai WHERE id > 18;
+Query OK, 2 rows affected (0.004 sec)
+*Hasilnya:
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+| id | nip   | nama          | gender    | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+|  1 | 00010 | Novela        | perempuan | Palembang   | 0200-04-16   |        4 |         1 | palembang  |
+|  2 | 00020 | Irfan Gunawan | laki-laki | Palembang   | 2002-03-20   |        1 |         1 | jakarta    |
+|  3 | 00030 | Alika         | laki-laki | Palembang   | 2002-02-02   |        1 |         1 | bogor      |
+|  4 | 00040 | Sintia        | perempuan | Palembang   | 2003-10-03   |        4 |         2 | palembang  |
+|  5 | 00050 | Aldi Santoso  | laki-laki | Palembang   | 2002-05-20   |        1 |         1 | Jambi      |
+|  6 | 00060 | Dendi         | laki-laki | Palembang   | 2002-12-28   |        1 |         1 | jakarta    |
+|  7 | 00070 | Febriansyah   | laki-laki | Padang      | 2003-02-28   |        2 |         2 | padang     |
+|  8 | 00080 | Muhammad Doni | laki-laki | Palembang   | 1997-11-25   |        2 |         1 | palembang  |
+|  9 | 00090 | zaskia        | perempuan | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |
+| 10 | 00100 | Ningsi        | perempuan | Palembang   | 1990-05-22   |        2 |         4 | palembang  |
+| 11 | 00111 | Nilam         | perempuan | Depok       | 1984-09-20   |        3 |         1 | depok      |
+| 12 | 00112 | Rasyid        | laki-laki | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |
+| 13 | 00113 | Dela          | perempuan | Bogor       | 2005-10-10   |        3 |         2 | bogor      |
+| 14 | 00114 | Tio Maulana   | laki-laki | Jakarta     | 2002-04-14   |        3 |         1 | jakarta    |
+| 15 | 00115 | Aisyah        | perempuan | lampung     | 2002-06-30   |        3 |         4 | lampung    |
+| 16 | 00116 | Asep          | laki-laki | Palembang   | 1997-08-10   |        1 |         3 | palembang  |
+| 17 | 00117 | Melda         | perempuan | Surabaya    | 2003-07-15   |        1 |         4 | surabaya   |
+| 18 | 00118 | Ridho         | laki-laki | Bandung     | 2004-09-25   |        1 |         2 | bandung    |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+
+18 rows in set (0.001 sec)
+
+jawaban no 18
+MariaDB [dbpegawai]> ALTER TABLE pegawai ADD COLUMN berat_badan FLOAT NOT NULL;
+Query OK, 0 rows affected (0.039 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET berat_badan = ROUND(RAND()*(100-40)+40,2);
+Query OK, 18 rows affected (0.004 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+*Hasilnya
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+-------------+
+| id | nip   | nama          | gender    | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     | berat_badan |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+-------------+
+|  1 | 00010 | Novela        | perempuan | Palembang   | 0200-04-16   |        4 |         1 | palembang  |       72.51 |
+|  2 | 00020 | Irfan Gunawan | laki-laki | Palembang   | 2002-03-20   |        1 |         1 | jakarta    |       81.39 |
+|  3 | 00030 | Alika         | laki-laki | Palembang   | 2002-02-02   |        1 |         1 | bogor      |       89.41 |
+|  4 | 00040 | Sintia        | perempuan | Palembang   | 2003-10-03   |        4 |         2 | palembang  |       42.87 |
+|  5 | 00050 | Aldi Santoso  | laki-laki | Palembang   | 2002-05-20   |        1 |         1 | Jambi      |       86.15 |
+|  6 | 00060 | Dendi         | laki-laki | Palembang   | 2002-12-28   |        1 |         1 | jakarta    |       82.13 |
+|  7 | 00070 | Febriansyah   | laki-laki | Padang      | 2003-02-28   |        2 |         2 | padang     |       52.18 |
+|  8 | 00080 | Muhammad Doni | laki-laki | Palembang   | 1997-11-25   |        2 |         1 | palembang  |       94.53 |
+|  9 | 00090 | zaskia        | perempuan | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |        96.1 |
+| 10 | 00100 | Ningsi        | perempuan | Palembang   | 1990-05-22   |        2 |         4 | palembang  |       96.91 |
+| 11 | 00111 | Nilam         | perempuan | Depok       | 1984-09-20   |        3 |         1 | depok      |       96.25 |
+| 12 | 00112 | Rasyid        | laki-laki | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |       90.53 |
+| 13 | 00113 | Dela          | perempuan | Bogor       | 2005-10-10   |        3 |         2 | bogor      |       63.91 |
+| 14 | 00114 | Tio Maulana   | laki-laki | Jakarta     | 2002-04-14   |        3 |         1 | jakarta    |       67.96 |
+| 15 | 00115 | Aisyah        | perempuan | lampung     | 2002-06-30   |        3 |         4 | lampung    |       48.06 |
+| 16 | 00116 | Asep          | laki-laki | Palembang   | 1997-08-10   |        1 |         3 | palembang  |       56.41 |
+| 17 | 00117 | Melda         | perempuan | Surabaya    | 2003-07-15   |        1 |         4 | surabaya   |       97.87 |
+| 18 | 00118 | Ridho         | laki-laki | Bandung     | 2004-09-25   |        1 |         2 | bandung    |       40.13 |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+-------------+
+18 rows in set (0.002 sec)
+
+jawaban no 19
+MariaDB [dbpegawai]> ALTER TABLE pegawai ADD COLUMN umur INT NOT NULL;
+Query OK, 0 rows affected (0.041 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [dbpegawai]> UPDATE pegawai SET umur = FLOOR(RAND()*(50-20+1))+20;
+Query OK, 18 rows affected (0.020 sec)
+Rows matched: 18  Changed: 18  Warnings: 0
+*Hasilnya
+MariaDB [dbpegawai]> SELECT * FROM pegawai;
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+-------------+------+
+| id | nip   | nama          | gender    | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     | berat_badan | umur |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+-------------+------+
+|  1 | 00010 | Novela        | perempuan | Palembang   | 0200-04-16   |        4 |         1 | palembang  |       72.51 |   23 |
+|  2 | 00020 | Irfan Gunawan | laki-laki | Palembang   | 2002-03-20   |        1 |         1 | jakarta    |       81.39 |   37 |
+|  3 | 00030 | Alika         | laki-laki | Palembang   | 2002-02-02   |        1 |         1 | bogor      |       89.41 |   36 |
+|  4 | 00040 | Sintia        | perempuan | Palembang   | 2003-10-03   |        4 |         2 | palembang  |       42.87 |   20 |
+|  5 | 00050 | Aldi Santoso  | laki-laki | Palembang   | 2002-05-20   |        1 |         1 | Jambi      |       86.15 |   31 |
+|  6 | 00060 | Dendi         | laki-laki | Palembang   | 2002-12-28   |        1 |         1 | jakarta    |       82.13 |   44 |
+|  7 | 00070 | Febriansyah   | laki-laki | Padang      | 2003-02-28   |        2 |         2 | padang     |       52.18 |   46 |
+|  8 | 00080 | Muhammad Doni | laki-laki | Palembang   | 1997-11-25   |        2 |         1 | palembang  |       94.53 |   49 |
+|  9 | 00090 | zaskia        | perempuan | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |        96.1 |   24 |
+| 10 | 00100 | Ningsi        | perempuan | Palembang   | 1990-05-22   |        2 |         4 | palembang  |       96.91 |   47 |
+| 11 | 00111 | Nilam         | perempuan | Depok       | 1984-09-20   |        3 |         1 | depok      |       96.25 |   49 |
+| 12 | 00112 | Rasyid        | laki-laki | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |       90.53 |   25 |
+| 13 | 00113 | Dela          | perempuan | Bogor       | 2005-10-10   |        3 |         2 | bogor      |       63.91 |   21 |
+| 14 | 00114 | Tio Maulana   | laki-laki | Jakarta     | 2002-04-14   |        3 |         1 | jakarta    |       67.96 |   41 |
+| 15 | 00115 | Aisyah        | perempuan | lampung     | 2002-06-30   |        3 |         4 | lampung    |       48.06 |   31 |
+| 16 | 00116 | Asep          | laki-laki | Palembang   | 1997-08-10   |        1 |         3 | palembang  |       56.41 |   42 |
+| 17 | 00117 | Melda         | perempuan | Surabaya    | 2003-07-15   |        1 |         4 | surabaya   |       97.87 |   35 |
+| 18 | 00118 | Ridho         | laki-laki | Bandung     | 2004-09-25   |        1 |         2 | bandung    |       40.13 |   28 |
++----+-------+---------------+-----------+-------------+--------------+----------+-----------+------------+-------------+------+
+18 rows in set (0.001 sec)
+
+jawaban no 20
+MariaDB [dbpegawai]>  ALTER TABLE pegawai CHANGE COLUMN gender jenis_kelamin ENUM('laki-laki','perempuan') NOT NULL;
+Query OK, 0 rows affected (0.029 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+jawaban no 21
+MariaDB [dbpegawai]> SELECT nip,nama,jenis_kelamin,alamat FROM pegawai;
++-------+---------------+---------------+------------+
+| nip   | nama          | jenis_kelamin | alamat     |
++-------+---------------+---------------+------------+
+| 00010 | Novela        | perempuan     | palembang  |
+| 00020 | Irfan Gunawan | laki-laki     | jakarta    |
+| 00030 | Alika         | laki-laki     | bogor      |
+| 00040 | Sintia        | perempuan     | palembang  |
+| 00050 | Aldi Santoso  | laki-laki     | Jambi      |
+| 00060 | Dendi         | laki-laki     | jakarta    |
+| 00070 | Febriansyah   | laki-laki     | padang     |
+| 00080 | Muhammad Doni | laki-laki     | palembang  |
+| 00090 | zaskia        | perempuan     | yogyakarta |
+| 00100 | Ningsi        | perempuan     | palembang  |
+| 00111 | Nilam         | perempuan     | depok      |
+| 00112 | Rasyid        | laki-laki     | Tangerang  |
+| 00113 | Dela          | perempuan     | bogor      |
+| 00114 | Tio Maulana   | laki-laki     | jakarta    |
+| 00115 | Aisyah        | perempuan     | lampung    |
+| 00116 | Asep          | laki-laki     | palembang  |
+| 00117 | Melda         | perempuan     | surabaya   |
+| 00118 | Ridho         | laki-laki     | bandung    |
++-------+---------------+---------------+------------+
+18 rows in set (0.001 sec)
+
+jawaban no 22
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE jenis_kelamin = 'laki-laki';
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+|  2 | 00020 | Irfan Gunawan | laki-laki     | Palembang   | 2002-03-20   |        1 |         1 | jakarta   |       81.39 |   37 |
+|  3 | 00030 | Alika         | laki-laki     | Palembang   | 2002-02-02   |        1 |         1 | bogor     |       89.41 |   36 |
+|  5 | 00050 | Aldi Santoso  | laki-laki     | Palembang   | 2002-05-20   |        1 |         1 | Jambi     |       86.15 |   31 |
+|  6 | 00060 | Dendi         | laki-laki     | Palembang   | 2002-12-28   |        1 |         1 | jakarta   |       82.13 |   44 |
+|  7 | 00070 | Febriansyah   | laki-laki     | Padang      | 2003-02-28   |        2 |         2 | padang    |       52.18 |   46 |
+|  8 | 00080 | Muhammad Doni | laki-laki     | Palembang   | 1997-11-25   |        2 |         1 | palembang |       94.53 |   49 |
+| 12 | 00112 | Rasyid        | laki-laki     | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang |       90.53 |   25 |
+| 14 | 00114 | Tio Maulana   | laki-laki     | Jakarta     | 2002-04-14   |        3 |         1 | jakarta   |       67.96 |   41 |
+| 16 | 00116 | Asep          | laki-laki     | Palembang   | 1997-08-10   |        1 |         3 | palembang |       56.41 |   42 |
+| 18 | 00118 | Ridho         | laki-laki     | Bandung     | 2004-09-25   |        1 |         2 | bandung   |       40.13 |   28 |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+10 rows in set (0.001 sec)
+
+jawaban no 23
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE iddivisi = 4 AND jenis_kelamin = 'perempuan';
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama   | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+|  1 | 00010 | Novela | perempuan     | Palembang   | 0200-04-16   |        4 |         1 | palembang |       72.51 |   23 |
+|  4 | 00040 | Sintia | perempuan     | Palembang   | 2003-10-03   |        4 |         2 | palembang |       42.87 |   20 |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+2 rows in set (0.001 sec)
+
+jawaban no 24
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE umur > 30 AND tempatlahir = 'Jakarta';
++----+-------+-------------+---------------+-------------+--------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama        | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+-------------+---------------+-------------+--------------+----------+-----------+---------+-------------+------+
+| 14 | 00114 | Tio Maulana | laki-laki     | Jakarta     | 2002-04-14   |        3 |         1 | jakarta |       87.17 |   42 |
++----+-------+-------------+---------------+-------------+--------------+----------+-----------+---------+-------------+------+
+1 row in set (0.001 sec)
+
+jawaban no 25
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE iddivisi = 3 AND jenis_kelamin = 'perempuan' AND umur > 30;
++----+-------+--------+---------------+-------------+--------------+----------+-----------+---------+-------------+------+
+| id | nip   | nama   | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat  | berat_badan | umur |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+---------+-------------+------+
+| 11 | 00111 | Nilam  | perempuan     | Depok       | 1984-09-20   |        3 |         1 | depok   |       96.25 |   49 |
+| 15 | 00115 | Aisyah | perempuan     | lampung     | 2002-06-30   |        3 |         4 | lampung |       48.06 |   31 |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+---------+-------------+------+
+2 rows in set (0.002 sec)
+
+jawaban no 26
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nip = '00010';
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama   | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+|  1 | 00010 | Novela | perempuan     | Palembang   | 0200-04-16   |        4 |         1 | palembang |       72.51 |   23 |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+1 row in set (0.001 sec)
+
+jawaban no 27
+
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE jenis_kelamin = 'laki-laki';
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+|  2 | 00020 | Irfan Gunawan | laki-laki     | Palembang   | 2002-03-20   |        1 |         1 | jakarta   |       81.39 |   37 |
+|  3 | 00030 | Alika         | laki-laki     | Palembang   | 2002-02-02   |        1 |         1 | bogor     |       89.41 |   36 |
+|  5 | 00050 | Aldi Santoso  | laki-laki     | Palembang   | 2002-05-20   |        1 |         1 | Jambi     |       86.15 |   31 |
+|  6 | 00060 | Dendi         | laki-laki     | Palembang   | 2002-12-28   |        1 |         1 | jakarta   |       82.13 |   44 |
+|  7 | 00070 | Febriansyah   | laki-laki     | Padang      | 2003-02-28   |        2 |         2 | padang    |       52.18 |   46 |
+|  8 | 00080 | Muhammad Doni | laki-laki     | Palembang   | 1997-11-25   |        2 |         1 | palembang |       94.53 |   49 |
+| 12 | 00112 | Rasyid        | laki-laki     | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang |       90.53 |   25 |
+| 14 | 00114 | Tio Maulana   | laki-laki     | Jakarta     | 2002-04-14   |        3 |         1 | jakarta   |       67.96 |   41 |
+| 16 | 00116 | Asep          | laki-laki     | Palembang   | 1997-08-10   |        1 |         3 | palembang |       56.41 |   42 |
+| 18 | 00118 | Ridho         | laki-laki     | Bandung     | 2004-09-25   |        1 |         2 | bandung   |       40.13 |   28 |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+10 rows in set (0.002 sec)
+
+jawaban no 28
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE nip IN('00020','00090','00115');
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     | berat_badan | umur |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+|  2 | 00020 | Irfan Gunawan | laki-laki     | Palembang   | 2002-03-20   |        1 |         1 | jakarta    |       81.39 |   37 |
+|  9 | 00090 | zaskia        | perempuan     | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |        96.1 |   24 |
+| 15 | 00115 | Aisyah        | perempuan     | lampung     | 2002-06-30   |        3 |         4 | lampung    |       48.06 |   31 |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+3 rows in set (0.001 sec)
+
+jawaban no 29
+MariaDB [dbpegawai]> SELECT * FROM pegawai WHERE tempatlahir NOT IN ('Bandung','Jakarta','Palembang');
++----+-------+-------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama        | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+-------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+|  7 | 00070 | Febriansyah | laki-laki     | Padang      | 2003-02-28   |        2 |         2 | padang    |       52.18 |   46 |
+| 11 | 00111 | Nilam       | perempuan     | Depok       | 1984-09-20   |        3 |         1 | depok     |       96.25 |   49 |
+| 12 | 00112 | Rasyid      | laki-laki     | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang |       90.53 |   25 |
+| 13 | 00113 | Dela        | perempuan     | Bogor       | 2005-10-10   |        3 |         2 | bogor     |       63.91 |   21 |
+| 15 | 00115 | Aisyah      | perempuan     | lampung     | 2002-06-30   |        3 |         4 | lampung   |       48.06 |   31 |
+| 17 | 00117 | Melda       | perempuan     | Surabaya    | 2003-07-15   |        1 |         4 | surabaya  |       97.87 |   35 |
++----+-------+-------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+6 rows in set (0.001 sec)
+
+jawaban no 30
+MariaDB [dbpegawai]> SELECT * FROM pegawai ORDER BY nama ASC;
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     | berat_badan | umur |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+| 15 | 00115 | Aisyah        | perempuan     | lampung     | 2002-06-30   |        3 |         4 | lampung    |       48.06 |   31 |
+|  5 | 00050 | Aldi Santoso  | laki-laki     | Palembang   | 2002-05-20   |        1 |         1 | Jambi      |       86.15 |   31 |
+|  3 | 00030 | Alika         | laki-laki     | Palembang   | 2002-02-02   |        1 |         1 | bogor      |       89.41 |   36 |
+| 16 | 00116 | Asep          | laki-laki     | Palembang   | 1997-08-10   |        1 |         3 | palembang  |       56.41 |   42 |
+| 13 | 00113 | Dela          | perempuan     | Bogor       | 2005-10-10   |        3 |         2 | bogor      |       63.91 |   21 |
+|  6 | 00060 | Dendi         | laki-laki     | Palembang   | 2002-12-28   |        1 |         1 | jakarta    |       82.13 |   44 |
+|  7 | 00070 | Febriansyah   | laki-laki     | Padang      | 2003-02-28   |        2 |         2 | padang     |       52.18 |   46 |
+|  2 | 00020 | Irfan Gunawan | laki-laki     | Palembang   | 2002-03-20   |        1 |         1 | jakarta    |       81.39 |   37 |
+| 17 | 00117 | Melda         | perempuan     | Surabaya    | 2003-07-15   |        1 |         4 | surabaya   |       97.87 |   35 |
+|  8 | 00080 | Muhammad Doni | laki-laki     | Palembang   | 1997-11-25   |        2 |         1 | palembang  |       94.53 |   49 |
+| 11 | 00111 | Nilam         | perempuan     | Depok       | 1984-09-20   |        3 |         1 | depok      |       96.25 |   49 |
+| 10 | 00100 | Ningsi        | perempuan     | Palembang   | 1990-05-22   |        2 |         4 | palembang  |       96.91 |   47 |
+|  1 | 00010 | Novela        | perempuan     | Palembang   | 0200-04-16   |        4 |         1 | palembang  |       72.51 |   23 |
+| 12 | 00112 | Rasyid        | laki-laki     | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |       90.53 |   25 |
+| 18 | 00118 | Ridho         | laki-laki     | Bandung     | 2004-09-25
+  |        1 |         2 | bandung    |       40.13 |   28 |
+|  4 | 00040 | Sintia        | perempuan     | Palembang   | 2003-10-03   |        4 |         2 | palembang  |       42.87 |   20 |
+| 14 | 00114 | Tio Maulana   | laki-laki     | Jakarta     | 2002-04-14   |        3 |         1 | jakarta    |       67.96 |   41 |
+|  9 | 00090 | zaskia        | perempuan     | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |        96.1 |   24 |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+18 rows in set (0.007 sec)
+
+jawaban no 31
+MariaDB [dbpegawai]> SELECT * FROM pegawai ORDER BY berat_badan DESC;
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     | berat_badan | umur |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+| 17 | 00117 | Melda         | perempuan     | Surabaya    | 2003-07-15   |        1 |         4 | surabaya   |       97.87 |   35 |
+| 10 | 00100 | Ningsi        | perempuan     | Palembang   | 1990-05-22   |        2 |         4 | palembang  |       96.91 |   47 |
+| 11 | 00111 | Nilam         | perempuan     | Depok       | 1984-09-20   |        3 |         1 | depok      |       96.25 |   49 |
+|  9 | 00090 | zaskia        | perempuan     | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |        96.1 |   24 |
+|  8 | 00080 | Muhammad Doni | laki-laki     | Palembang   | 1997-11-25   |        2 |         1 | palembang  |       94.53 |   49 |
+| 12 | 00112 | Rasyid        | laki-laki     | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |       90.53 |   25 |
+|  3 | 00030 | Alika         | laki-laki     | Palembang   | 2002-02-02   |        1 |         1 | bogor      |       89.41 |   36 |
+|  5 | 00050 | Aldi Santoso  | laki-laki     | Palembang   | 2002-05-20   |        1 |         1 | Jambi      |       86.15 |   31 |
+|  6 | 00060 | Dendi         | laki-laki     | Palembang   | 2002-12-28   |        1 |         1 | jakarta    |       82.13 |   44 |
+|  2 | 00020 | Irfan Gunawan | laki-laki     | Palembang   | 2002-03-20   |        1 |         1 | jakarta    |       81.39 |   37 |
+|  1 | 00010 | Novela        | perempuan     | Palembang   | 0200-04-16   |        4 |         1 | palembang  |       72.51 |   23 |
+| 14 | 00114 | Tio Maulana   | laki-laki     | Jakarta     | 2002-04-14   |        3 |         1 | jakarta    |       67.96 |   41 |
+| 13 | 00113 | Dela          | perempuan     | Bogor       | 2005-10-10   |        3 |         2 | bogor      |       63.91 |   21 |
+| 16 | 00116 | Asep          | laki-laki     | Palembang   | 1997-08-10   |        1 |         3 | palembang  |       56.41 |   42 |
+|  7 | 00070 | Febriansyah   | laki-laki     | Padang      | 2003-02-28   |        2 |         2 | padang     |       52.18 |   46 |
+| 15 | 00115 | Aisyah        | perempuan     | lampung     | 2002-06-30   |        3 |         4 | lampung    |       48.06 |   31 |
+|  4 | 00040 | Sintia        | perempuan     | Palembang   | 2003-10-03   |        4 |         2 | palembang  |       42.87 |   20 |
+| 18 | 00118 | Ridho         | laki-laki     | Bandung     | 2004-09-25   |        1 |         2 | bandung    |       40.13 |   28 |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+18 rows in set (0.001 sec)
+
+jawaban no 32
+MariaDB [dbpegawai]> SELECT * FROM pegawai ORDER BY id ASC LIMIT 5;
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+|  1 | 00010 | Novela        | perempuan     | Palembang   | 0200-04-16   |        4 |         1 | palembang |       72.51 |   23 |
+|  2 | 00020 | Irfan Gunawan | laki-laki     | Palembang   | 2002-03-20   |        1 |         1 | jakarta   |       81.39 |   37 |
+|  3 | 00030 | Alika         | laki-laki     | Palembang   | 2002-02-02   |        1 |         1 | bogor     |       89.41 |   36 |
+|  4 | 00040 | Sintia        | perempuan     | Palembang   | 2003-10-03   |        4 |         2 | palembang |       42.87 |   20 |
+|  5 | 00050 | Aldi Santoso  | laki-laki     | Palembang   | 2002-05-20   |        1 |         1 | Jambi     |       86.15 |   31 |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+5 rows in set (0.001 sec)
+
+jawaban no 33
+MariaDB [dbpegawai]> SELECT * FROM pegawai ORDER BY id DESC LIMIT 5 OFFSET 5;
++----+-------+--------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+| id | nip   | nama   | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat     | berat_badan | umur |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+| 13 | 00113 | Dela   | perempuan     | Bogor       | 2005-10-10   |        3 |         2 | bogor      |       63.91 |   21 |
+| 12 | 00112 | Rasyid | laki-laki     | Tangerang   | 2002-12-02   |        3 |         3 | Tangerang  |       90.53 |   25 |
+| 11 | 00111 | Nilam  | perempuan     | Depok       | 1984-09-20   |        3 |         1 | depok      |       96.25 |   49 |
+| 10 | 00100 | Ningsi | perempuan     | Palembang   | 1990-05-22   |        2 |         4 | palembang  |       96.91 |   47 |
+|  9 | 00090 | zaskia | perempuan     | Palembang   | 2004-04-19   |        1 |         1 | yogyakarta |        96.1 |   24 |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+------------+-------------+------+
+5 rows in set (0.001 sec)
+
+jawaban no 34
+MariaDB [dbpegawai]> SELECT COUNT(*) FROM pegawai;
++----------+
+| COUNT(*) |
++----------+
+|       18 |
++----------+
+1 row in set (0.002 sec)
+
+jawaban no 35
+MariaDB [dbpegawai]> SELECT nip,nama,umur FROM pegawai WHERE umur = (SELECT MAX(umur) FROM pegawai);
++-------+---------------+------+
+| nip   | nama          | umur |
++-------+---------------+------+
+| 00080 | Muhammad Doni |   49 |
+| 00111 | Nilam         |   49 |
++-------+---------------+------+
+2 rows in set (0.007 sec)
+
+jawaban no 36
+MariaDB [dbpegawai]> SELECT nip,nama,berat_badan FROM pegawai WHERE berat_badan = (SELECT MIN(berat_badan) FROM pegawai);
++-------+-------+-------------+
+| nip   | nama  | berat_badan |
++-------+-------+-------------+
+| 00118 | Ridho |       40.13 |
++-------+-------+-------------+
+1 row in set (0.001 sec)
+
+jawaban no 37
+MariaDB [dbpegawai]> SELECT AVG (umur) AS rata_rata_umur FROM pegawai;
++----------------+
+| rata_rata_umur |
++----------------+
+|        34.9444 |
++----------------+
+1 row in set (0.001 sec)
+
+jawaban 38
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai
+    -> WHERE jenis_kelamin = 'Laki-laki'
+    -> AND umur > 40
+    -> AND idjabatan = 2;
++----------------+
+| jumlah_pegawai |
++----------------+
+|              1 |
++----------------+
+1 row in set (0.001 sec)
+
+jawaban no 39
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan'
+    -> AND umur < 40
+    -> AND idjabatan = 4;
++----------------+
+| jumlah_pegawai |
++----------------+
+|              2 |
++----------------+
+1 row in set (0.001 sec)
+
+jawaban no 40
+MariaDB [dbpegawai]> SELECT COUNT(*) AS jumlah_pegawai_perempuan FROM pegawai
+    -> WHERE jenis_kelamin = 'Perempuan';
++--------------------------+
+| jumlah_pegawai_perempuan |
++--------------------------+
+|                        8 |
++--------------------------+
+1 row in set (0.001 sec)
+
+jawaban no 41
+MariaDB [dbpegawai]> SELECT SUM(1) AS jumlah_pegawai_SDM FROM pegawai
+    -> WHERE iddivisi = 1;
++--------------------+
+| jumlah_pegawai_SDM |
++--------------------+
+|                  8 |
++--------------------+
+1 row in set (0.001 sec)
+
+jawaban no 42
+MariaDB [dbpegawai]> SELECT iddivisi, COUNT(*) AS jumlah_pegawai_perdivisi FROM pegawai
+    -> GROUP BY iddivisi;
++----------+--------------------------+
+| iddivisi | jumlah_pegawai_perdivisi |
++----------+--------------------------+
+|        1 |                        8 |
+|        2 |                        3 |
+|        3 |                        5 |
+|        4 |                        2 |
++----------+--------------------------+
+4 rows in set (0.017 sec)
+
+jawaban no 43
+MariaDB [dbpegawai]> SELECT jenis_kelamin, COUNT(*) AS jumlah_pegawai FROM pegawai
+    -> GROUP BY jenis_kelamin
+    -> HAVING COUNT(*) >=10;
++---------------+----------------+
+| jenis_kelamin | jumlah_pegawai |
++---------------+----------------+
+| laki-laki     |             10 |
++---------------+----------------+
+1 row in set (0.002 sec)
+
+jawaban no 44
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE 'Muhammad %';
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama          | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+|  8 | 00080 | Muhammad Doni | laki-laki     | Palembang   | 1997-11-25   |        2 |         1 | palembang |       94.53 |   49 |
++----+-------+---------------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+1 row in set (0.001 sec)
+
+jawaban no 45
+MariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE '%Santoso';
++----+-------+--------------+---------------+-------------+--------------+----------+-----------+--------+-------------+------+
+| id | nip   | nama         | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat | berat_badan | umur |
++----+-------+--------------+---------------+-------------+--------------+----------+-----------+--------+-------------+------+
+|  5 | 00050 | Aldi Santoso | laki-laki     | Palembang   | 2002-05-20   |        1 |         1 | Jambi  |       86.15 |   31 |
++----+-------+--------------+---------------+-------------+--------------+----------+-----------+--------+-------------+------+
+1 row in set (0.001 sec)
+
+jawaban no 46
+MMariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE nama LIKE '%Asep%';
++----+-------+------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| 16 | 00116 | Asep | laki-laki     | Palembang   | 1997-08-10   |        1 |         3 | palembang |       56.41 |   42 |
++----+-------+------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+1 row in set (0.001 sec)
+
+jawaban no 47
+MMariaDB [dbpegawai]> SELECT * FROM pegawai
+    -> WHERE SUBSTRING(nama, 5, 1) = 'S';
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| id | nip   | nama   | jenis_kelamin | tempatlahir | tanggallahir | iddivisi | idjabatan | alamat    | berat_badan | umur |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+| 10 | 00100 | Ningsi | perempuan     | Palembang   | 1990-05-22   |        2 |         4 | palembang |       96.91 |   47 |
++----+-------+--------+---------------+-------------+--------------+----------+-----------+-----------+-------------+------+
+1 row in set (0.001 sec)
